@@ -60,13 +60,12 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) =>{
         const productId = button.dataset.productId;// special attribute in HTML to store data, we can access it using dataset in JavaScript
 
         let matchingItem;
-        let cartQuantity = 1;
+        let cartQuantity = 0;
 
         cart.forEach((item) =>{
             if(item.productId === productId){
                 matchingItem = item;
             }
-            cartQuantity += item.quantity;
         });
         if(matchingItem){
             matchingItem.quantity += 1;
@@ -77,6 +76,9 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) =>{
             quantity: 1
         });
         }
+        cart.forEach((item) => {
+            cartQuantity += item.quantity;
+        });
 
         document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
     });
