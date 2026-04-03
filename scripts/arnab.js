@@ -1,5 +1,7 @@
-import {cart} from '../data/cart.js'; // .. means go back one folder, then go to data folder and get cart.js file, and import the variable cart from that file. We can use this variable in this file now.
+import {cart,addToCart} from '../data/cart.js'; // .. means go back one folder, then go to data folder and get cart.js file, and import the variable cart from that file. We can use this variable in this file now.
 import {products} from '../data/products.js';
+// import has another syntax, import * as cartModule from '../data/cart.js'; // imports everyting from a file and group it into an object , then we can access the variable cart using cartModule.cart, and the function addToCart using cartModule.addToCart. This is useful when we want to import many variables and functions from a file, so we don't have to write them all in the import statement.
+
 let productsHTML = '';
 let timeOutIds = {};
 
@@ -58,44 +60,42 @@ products.forEach((product) => {
 
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
+// we won't move the function
+function updateCartQuantity(){
+    let cartQuantity = 0;
+
+    cart.forEach((item) => {
+        cartQuantity += item.productQuantity;
+    });
+    
+    document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+
+}
+
+function addedToCartMessage(productId){
+    let addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
+
+    addedMessage.classList.add('added-to-cart-show');
+
+    clearTimeout(timeOutIds[productId]); // remove the timeout if the user clicks the add to cart button multiple times quickly, so that the message will stay for 2 seconds after the last click.( يلغي التايمر القديم ويبدأ تايمر جديد).
+
+    timeOutIds[productId] = setTimeout(() =>{
+            addedMessage.classList.remove('added-to-cart-show');
+
+        },2000);
+}
+
 document.querySelectorAll('.js-add-to-cart').forEach((button) =>{
     button.addEventListener('click', () => {
-        const {productId} = button.dataset;// special attribute in HTML to store data, we can access it using dataset in JavaScript
+        const {productId} = button.dataset;// const productId = button.dataset.productId; // special attribute in HTML to store data, we can access it using dataset in JavaScript
 
-        let matchingItem;
-        let cartQuantity = 0;
-        let productQuantity = parseInt(document.querySelector(`.js-quantity-selector-${productId}`).value);
-        let addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
-
-        cart.forEach((item) =>{
-            if(item.productId === productId){
-                matchingItem = item;
-            }
-        });
-        if(matchingItem){
-            matchingItem.quantity += productQuantity;
-        }
-        else{
-        cart.push({
-            productId, //productId: productId
-            quantity: productQuantity
-        });
-        }
-        cart.forEach((item) => {
-            cartQuantity += item.quantity;
-        });
-        document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
-
-        addedMessage.classList.add('added-to-cart-show');
-
-        clearTimeout(timeOutIds[productId]);
-        timeOutIds[productId] = setTimeout(() =>{
-                addedMessage.classList.remove('added-to-cart-show');
-
-            },2000);
+        addToCart(productId);
+        updateCartQuantity();
+        addedToCartMessage(productId);
 
     });
 });
+
 /*
     Main idea of JavaScript:
     1. save the data
