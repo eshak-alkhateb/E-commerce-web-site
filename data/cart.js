@@ -1,1 +1,1 @@
-const cart = [];
+export const cart = []; // export means we can use this variable in other files, and we can import it in other files.
