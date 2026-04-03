@@ -1,4 +1,5 @@
 import {cart} from '../data/cart.js'; // .. means go back one folder, then go to data folder and get cart.js file, and import the variable cart from that file. We can use this variable in this file now.
+import {products} from '../data/products.js';
 let productsHTML = '';
 let timeOutIds = {};
 
