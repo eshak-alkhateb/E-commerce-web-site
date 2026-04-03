@@ -29,6 +29,22 @@ const products = [
     ]
   },
   {
+  id: "1",
+  image: "images/products/black-nigger.jpeg",
+  name: "S-17 Elite Class black Male nigger Strong, Tall, Handsome | Obedience-Conditioned |",
+  rating: {
+    stars: 5,
+    count: 8785
+  },
+  priceCents: 49999,
+  keywords: [
+    "slave",
+    "nigga",
+    "black",
+    "male"
+  ]
+  },
+  {
     id: "83d4ca15-0f35-48f5-b7a3-1ea210004f2e",
     image: "images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg",
     name: "Adults Plain Cotton T-Shirt - 2 Pack",
@@ -655,6 +671,36 @@ const products = [
       "hoodies",
       "apparel",
       "mens"
+    ]
+  },
+  {
+    id: "2",
+    image: "images/products/backpack.jpg",
+    name: "Hiking Backpack with Hydration Bladder",
+    rating: {
+      stars: 4.5,
+      count: 87
+    },
+    priceCents: 2229,
+    keywords: [
+      "backpacks",
+      "hiking",
+      "outdoors"
+    ]
+  },
+  {
+    id: "3",
+    image: "images/products/umbrella.jpg",
+    name: "Windproof Travel Umbrella with UV Protection",
+    rating: {
+      stars: 4,
+      count: 127
+    },
+    priceCents: 2095,
+    keywords: [
+      "umbrellas",
+      "travel",
+      "accessories"
     ]
   }
 ];
