@@ -444,6 +444,21 @@ export const products = [
     ]
   },
   {
+    id: "2",
+    image: "images/products/alrahma-barber.jpeg",
+    name: "حلاق الرحمة",
+    rating: {
+      stars: 5,
+      count: 9000
+    },
+    priceCents: 10000,
+    keywords: [
+      "barber",
+      "haircut",
+      "shave"
+    ]
+  },
+  {
     id: "1c079479-8586-494f-ab53-219325432536",
     image: "images/products/men-athletic-shoes-green.jpg",
     name: "Men's Athletic Sneaker",
@@ -674,7 +689,7 @@ export const products = [
     ]
   },
   {
-    id: "2",
+    id: "59dlhr5k-5323-r95k-b7cf-39gkslh8406k",
     image: "images/products/backpack.jpg",
     name: "Hiking Backpack with Hydration Bladder",
     rating: {
@@ -689,7 +704,7 @@ export const products = [
     ]
   },
   {
-    id: "3",
+    id: "77a845b1-195f-10gl-bdf9-30gjqp86oqns",
     image: "images/products/umbrella.jpg",
     name: "Windproof Travel Umbrella with UV Protection",
     rating: {

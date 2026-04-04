@@ -1,4 +1,5 @@
-export const cart = []; // export means we can use this variable in other files, and we can import it in other files.
+export const cart = JSON.parse(localStorage.getItem('cart')) || 
+[]; // export means we can use this variable in other files, and we can import it in other files. 
 
 export function addToCart(productId){
     let matchingItem;
@@ -18,4 +19,6 @@ export function addToCart(productId){
         productQuantity // productQuantity: productQuantity
     });
     }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    //localStorage.clear();
 }
