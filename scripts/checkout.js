@@ -1,4 +1,4 @@
-import {cart} from '../data/cart.js';
+import {cart, removeFromCart} from '../data/cart.js';
 import {products} from '../data/products.js';
 import {formatCurrency} from './utils/money.js'; // a single . means go back from the current folder
 let cartSummaryHTML = '';
@@ -19,7 +19,7 @@ products.forEach((product) => {
 });
 
 cartSummaryHTML += `
-          <div class="cart-item-container">
+          <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
             <div class="delivery-date">
               Delivery date: Tuesday, June 21
             </div>
@@ -42,7 +42,7 @@ cartSummaryHTML += `
                   <span class="update-quantity-link link-primary">
                     Update
                   </span>
-                  <span class="delete-quantity-link link-primary js-delete-button" data-product-id="${matchingProduct.id}">
+                  <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
                     Delete
                   </span>
                 </div>
@@ -136,19 +136,13 @@ document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
 document.querySelector('.js-payment-summary').innerHTML = paymentSummaryHTML;
 document.querySelector('.js-return-to-home-link').innerHTML = `${TotalItems} items`;
 
-document.querySelectorAll(`.js-delete-button`).forEach((deleteButton,index) => {
-    deleteButton.addEventListener('click', () => {
-        const productId = deleteButton.dataset.productId;
-
-        if(cart[index].productQuantity > 1)
-          cart[index].productQuantity--;
-        else
-          cart.splice(index, 1);
-        
-        localStorage.setItem('cart', JSON.stringify(cart));
-        location.reload();
+document.querySelectorAll(`.js-delete-link`).forEach((link) => {
+    link.addEventListener('click', () => {
+        const {productId} = link.dataset;
+        const container = document.querySelector(`.js-cart-item-container-${productId}`);
+        removeFromCart(productId);
+        container.remove();
         });
-
     });
 
 

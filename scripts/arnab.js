@@ -72,7 +72,6 @@ function updateCartQuantity(){
     document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
 
 }
-updateCartQuantity();
 
 function addedToCartMessage(productId){
     let addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
@@ -97,6 +96,8 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) =>{
 
     });
 });
+
+updateCartQuantity();
 
 /*
     Main idea of JavaScript:
