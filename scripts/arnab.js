@@ -1,4 +1,4 @@
-import {cart,addToCart} from '../data/cart.js'; // .. means go back one folder, then go to data folder and get cart.js file, and import the variable cart from that file. We can use this variable in this file now.
+import {cart,addToCart,calculateCartQuantity} from '../data/cart.js'; // .. means go back one folder, then go to data folder and get cart.js file, and import the variable cart from that file. We can use this variable in this file now.
 import {products} from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 // import has another syntax, import * as cartModule from '../data/cart.js'; // imports everyting from a file and group it into an object , then we can access the variable cart using cartModule.cart, and the function addToCart using cartModule.addToCart. This is useful when we want to import many variables and functions from a file, so we don't have to write them all in the import statement.
@@ -63,14 +63,9 @@ document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
 // we won't move the function addToCart to this file, because we want to keep the data and the logic of manipulating the data in the same file, which is cart.js file, and we want to keep the code that generates the HTML and makes it interactive in this file, which is arnab.js file. This way we can keep our code organized and easier to maintain.
 function updateCartQuantity(){
-    let cartQuantity = 0;
+    let cartQuantity = calculateCartQuantity();
 
-    cart.forEach((item) => {
-        cartQuantity += item.productQuantity;
-    });
-    
     document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
-
 }
 
 function addedToCartMessage(productId){
