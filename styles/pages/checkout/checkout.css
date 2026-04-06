@@ -115,20 +115,19 @@
   margin-bottom: 5px;
 }
 
-.product-quantity .link-primary {
+.product-quantity,.link-primary {
   margin-left: 3px;
 }
 
-/*working area!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 .quantity-input-hide{
   width: 20px;
 }
 
-.save-link-hide,.quantity-input-hide{
+.save-link-hide,.quantity-input-hide, .update-quantity-hide {
   display:none;
 }
 
-.display-quantity-input-and-save-link{
+.is-editing {
   display: inline-block;
 }
 

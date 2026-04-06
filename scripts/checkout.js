@@ -39,7 +39,7 @@ cart.forEach((cartItem) => {
                     Quantity: <span class="quantity-label">${cartItem.productQuantity}</span>
                   </span>
                   <span>
-                    <span class="update-quantity-link link-primary js-update-link" data-product-id="${matchingProduct.id}">Update</span>
+                    <span class="link-primary js-update-link" data-product-id="${matchingProduct.id}">Update</span>
                     <input class="quantity-input-hide js-quantity-input-${matchingProduct.id}" type="text">
                     <div class="link-primary save-link-hide js-save-link-${matchingProduct.id}">Save</div>
                   </span>
@@ -154,23 +154,19 @@ document.querySelectorAll(`.js-update-link`).forEach((link) => {
     const quantityInput = document.querySelector('.js-quantity-input-' + productId);
     const saveLink = document.querySelector('.js-save-link-' + productId);
 
-    quantityInput.classList.add('display-quantity-input-and-save-link');
-    saveLink.classList.add('display-quantity-input-and-save-link');
+    quantityInput.classList.add('is-editing');
+    saveLink.classList.add('is-editing');
+    document.querySelector(`.js-update-link`).classList.add('update-quantity-hide');
 
     quantityInput.focus();
+    
     saveLink.addEventListener('click', () => {
-      updateCart(productId,quantityInput);
-      quantityInput.classList.remove('display-quantity-input-and-save-link');
-      saveLink.classList.remove('display-quantity-input-and-save-link');
-      location.reload();
+      updateQuantity(productId,quantityInput);
     });
 
     quantityInput.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
-        updateCart(productId, quantityInput);
-        quantityInput.classList.remove('display-quantity-input-and-save-link');
-        saveLink.classList.remove('display-quantity-input-and-save-link');
-        location.reload();
+        updateQuantity(productId, quantityInput);
       }
     });
 
@@ -178,14 +174,23 @@ document.querySelectorAll(`.js-update-link`).forEach((link) => {
 
 });
 
-function updateCart(productId,quantityInput) {
+function updateQuantity(productId,quantityInput) {
       const quantityInputValue = parseInt(quantityInput.value);
 
-      cart.forEach((cartItem) => {
-        if (cartItem.productId === productId)
-          if (quantityInputValue > 0 && quantityInputValue <= 99) {
-            cartItem.productQuantity = quantityInputValue;
-            saveToStorage();
-          }
-      });
+      const cartItem = cart.find((item) => item.productId === productId);
+
+        if (quantityInputValue > 0 && quantityInputValue <= 1000) {
+          cartItem.productQuantity = quantityInputValue;
+          saveToStorage();
+          location.reload();
+        }
+        else if(quantityInputValue === 0){
+          cartItem.productQuantity = quantityInputValue;
+          removeFromCart(productId);
+        }
+
+      quantityInput.classList.remove('is-editing');
+      document.querySelector('.js-save-link-' + productId).classList.remove('is-editing');
+      document.querySelector('.js-update-link').classList.remove('update-quantity-hide');
+      
 }
