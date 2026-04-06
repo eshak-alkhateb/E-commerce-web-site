@@ -1,11 +1,13 @@
 import { calculateCartQuantity, cart, removeFromCart, saveToStorage } from '../data/cart.js';
-import { products } from '../data/products.js';
-import { formatCurrency } from './utils/money.js'; // a single . means go back from the current folder
+import products from '../data/products.js';
+import formatCurrency from './utils/money.js'; // a single . means go back from the current folder
+import dayjs from 'https://cdn.jsdelivr.net/npm/dayjs@1.11.20/+esm';
+
+const today = dayjs();
+const deliveryDate = today;
 
 let cartSummaryHTML = '';
-let paymentSummaryHTML = '';
 let TotalPrice = 0;
-
 
 cart.forEach((cartItem) => {
   let matchingProduct;
@@ -59,7 +61,7 @@ cart.forEach((cartItem) => {
                     name="delivery-option-${matchingProduct.id}">
                   <div>
                     <div class="delivery-option-date">
-                      Tuesday, June 21
+                      ${deliveryDate.add(7,'day').format('dddd, MMMM D')}
                     </div>
                     <div class="delivery-option-price">
                       FREE Shipping
@@ -72,7 +74,7 @@ cart.forEach((cartItem) => {
                     name="delivery-option-${matchingProduct.id}">
                   <div>
                     <div class="delivery-option-date">
-                      Wednesday, June 15
+                      ${deliveryDate.add(3,'day').format('dddd, MMMM D')}
                     </div>
                     <div class="delivery-option-price">
                       $4.99 - Shipping
@@ -85,7 +87,7 @@ cart.forEach((cartItem) => {
                     name="delivery-option-${matchingProduct.id}">
                   <div>
                     <div class="delivery-option-date">
-                      Monday, June 13
+                      ${deliveryDate.add(2,'day').format('dddd, MMMM D')}
                     </div>
                     <div class="delivery-option-price">
                       $9.99 - Shipping
@@ -97,6 +99,8 @@ cart.forEach((cartItem) => {
           </div>
 `;
 });
+
+let paymentSummaryHTML = '';
 
 paymentSummaryHTML = `
           <div class="payment-summary-title">

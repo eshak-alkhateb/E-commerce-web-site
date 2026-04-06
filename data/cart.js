@@ -16,7 +16,8 @@ export function addToCart(productId) {
     else {
         cart.push({
             productId, //productId: productId
-            productQuantity // productQuantity: productQuantity
+            productQuantity, // productQuantity: productQuantity
+            deliveryOptionId: '1' // default delivery option id
         });
     }
     saveToStorage();
