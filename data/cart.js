@@ -37,7 +37,6 @@ export function removeFromCart(productId) {
     }
 
     saveToStorage();
-    location.reload();
 }
 
 export function calculateCartQuantity(){
@@ -66,5 +65,4 @@ export function updateDeliveryOption(productId, deliveryOptionId){
 
     matchingItem.deliveryOptionId = deliveryOptionId;
     saveToStorage();
-    location.reload();
 }
