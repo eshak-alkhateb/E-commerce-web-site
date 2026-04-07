@@ -118,7 +118,7 @@ export function renderOrderSummary() {
       const { productId } = link.dataset;
       removeFromCart(productId);
       renderOrderSummary();
-      renderPaymentSummary();
+      renderPaymentSummary();//make it interactive
     });
   });
 
