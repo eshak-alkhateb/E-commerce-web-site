@@ -53,3 +53,18 @@ export function calculateCartQuantity(){
 export function saveToStorage() {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
+
+/////////////////delivery option
+export function updateDeliveryOption(productId, deliveryOptionId){
+    let matchingItem;
+
+    cart.forEach((cartItem) => {
+        if (cartItem.productId === productId) {
+            matchingItem = cartItem;
+        }
+    });
+
+    matchingItem.deliveryOptionId = deliveryOptionId;
+    saveToStorage();
+    location.reload();
+}
