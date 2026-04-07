@@ -1,33 +1,28 @@
 import { calculateCartQuantity, cart, removeFromCart, saveToStorage, updateDeliveryOption } from '../../data/cart.js';
-import products from '../../data/products.js';
+import {/*products,*/getProduct} from '../../data/products.js';
 import formatCurrency from '../utils/money.js'; // a single . means go back from the current folder
 import dayjs from 'https://cdn.jsdelivr.net/npm/dayjs@1.11.20/+esm';
-import { deliveryOptions } from '../../data/deliveryOptions.js';
+import { deliveryOptions, getDeliveryOption } from '../../data/deliveryOptions.js';
+import { renderPaymentSummary } from './paymentSummary.js';
 
 export function renderOrderSummary() {
     let cartSummaryHTML = '';
-    let TotalPrice = 0;
+    //let TotalPrice = 0;
 
     cart.forEach((cartItem) => {
-      let matchingProduct;
+      const matchingProduct = getProduct(cartItem.productId);
 
-      products.forEach((product) => {
+      /*products.forEach((product) => {
         if (cartItem.productId === product.id) {
           matchingProduct = product;
           TotalPrice += (product.priceCents * cartItem.productQuantity) / 100;
         }
-      });
+      });*/
 
       /////////////////delivery option
     const deliveryOptionId = cartItem.deliveryOptionId;
 
-    let deliveryOption;
-
-    deliveryOptions.forEach((option) => {
-      if (option.id === deliveryOptionId) {
-        deliveryOption = option;
-      }
-    });
+    const deliveryOption = getDeliveryOption(deliveryOptionId);
 
     const today = dayjs();
     const deliveryDate = today.add(deliveryOption.deliveryDays,'days');
@@ -113,46 +108,9 @@ export function renderOrderSummary() {
     return html;
   }
 
-  let paymentSummaryHTML = '';
-
-  paymentSummaryHTML = `
-            <div class="payment-summary-title">
-              Order Summary
-            </div>
-
-            <div class="payment-summary-row">
-              <div>Items (${calculateCartQuantity() || 0}):</div>
-              <div class="payment-summary-money">$${(TotalPrice).toFixed(2)}</div>
-            </div>
-
-            <div class="payment-summary-row">
-              <div>Shipping &amp; handling:</div>
-              <div class="payment-summary-money">$4.99</div>
-            </div>
-
-            <div class="payment-summary-row subtotal-row">
-              <div>Total before tax:</div>
-              <div class="payment-summary-money">$${(TotalPrice).toFixed(2)}</div>
-            </div>
-
-            <div class="payment-summary-row">
-              <div>Estimated tax (10%):</div>
-              <div class="payment-summary-money">$${(TotalPrice * 0.1).toFixed(2)}</div>
-            </div>
-
-            <div class="payment-summary-row total-row">
-              <div>Order total:</div>
-              <div class="payment-summary-money">$${(TotalPrice * 1.1).toFixed(2)}</div>
-            </div>
-
-            <button class="place-order-button button-primary">
-              Place your order
-            </button>
-  `;
 
 
   document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
-  document.querySelector('.js-payment-summary').innerHTML = paymentSummaryHTML;
   document.querySelector('.js-return-to-home-link').innerHTML = `${calculateCartQuantity() || 0} items`;
 
   document.querySelectorAll(`.js-delete-link`).forEach((link) => {
@@ -160,6 +118,7 @@ export function renderOrderSummary() {
       const { productId } = link.dataset;
       removeFromCart(productId);
       renderOrderSummary();
+      renderPaymentSummary();
     });
   });
 
@@ -179,12 +138,14 @@ export function renderOrderSummary() {
       saveLink.addEventListener('click', () => {
         updateQuantity(productId,quantityInput);
         renderOrderSummary();
+        renderPaymentSummary();
       });
 
       quantityInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
           updateQuantity(productId, quantityInput);
           renderOrderSummary();
+          renderPaymentSummary();
         }
       });
 
@@ -218,6 +179,7 @@ export function renderOrderSummary() {
       const { productId, deliveryOptionId } = element.dataset;
       updateDeliveryOption(productId, deliveryOptionId);
       renderOrderSummary();
+      renderPaymentSummary();
     });
   });
 }
